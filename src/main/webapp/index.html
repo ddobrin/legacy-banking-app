@@ -111,12 +111,12 @@
                         <tbody>
                             <% _.each(customers, function(customer) { %>
                                 <tr>
-                                    <td><%= customer.lastName %>, <%= customer.firstName %></td>
-                                    <td><%= customer.cifNumber %></td>
-                                    <td><%= customer.email %></td>
-                                    <td><span class="badge"><%= customer.accountCount %></span></td>
+                                    <td><%- customer.lastName %>, <%- customer.firstName %></td>
+                                    <td><%- customer.cifNumber %></td>
+                                    <td><%- customer.email %></td>
+                                    <td><span class="badge"><%- customer.accountCount %></span></td>
                                     <td>
-                                        <a href="#customers/<%= customer.customerId %>" class="btn btn-small">View Profile</a>
+                                        <a href="#customers/<%- customer.customerId %>" class="btn btn-small">View Profile</a>
                                     </td>
                                 </tr>
                             <% }); %>
@@ -129,14 +129,14 @@
 
     <script type="text/template" id="customer-template">
         <div class="card">
-            <div class="card-header">Customer Record: <%= firstName %> <%= lastName %></div>
+            <div class="card-header">Customer Record: <%- firstName %> <%- lastName %></div>
             <div class="card-body">
-                <p><strong>Customer ID:</strong> <%= customerId %></p>
-                <p><strong>CIF Number:</strong> <%= cifNumber %></p>
-                <p><strong>Email:</strong> <%= email %></p>
-                <p><strong>Date of Birth:</strong> <%= dateOfBirth %></p>
-                <p><strong>KYC Status:</strong> <%= kycStatus %></p>
-                <p><strong>Risk Rating:</strong> <%= riskRating %></p>
+                <p><strong>Customer ID:</strong> <%- customerId %></p>
+                <p><strong>CIF Number:</strong> <%- cifNumber %></p>
+                <p><strong>Email:</strong> <%- email %></p>
+                <p><strong>Date of Birth:</strong> <%- dateOfBirth %></p>
+                <p><strong>KYC Status:</strong> <%- kycStatus %></p>
+                <p><strong>Risk Rating:</strong> <%- riskRating %></p>
                 <hr>
                 <h4>Accounts</h4>
                 <% if (typeof accounts !== 'undefined' && accounts.length > 0) { %>
@@ -153,11 +153,11 @@
                         <tbody>
                             <% _.each(accounts, function(account) { %>
                                 <tr>
-                                    <td><%= account.accountNumber %></td>
-                                    <td><%= account.productCode %></td>
-                                    <td><%= account.balance %></td>
-                                    <td><%= account.status %></td>
-                                    <td><a href="#accounts/<%= account.accountId %>" class="btn btn-small">View</a></td>
+                                    <td><%- account.accountNumber %></td>
+                                    <td><%- account.productCode %></td>
+                                    <td><%- account.balance %></td>
+                                    <td><%- account.status %></td>
+                                    <td><a href="#accounts/<%- account.accountId %>" class="btn btn-small">View</a></td>
                                 </tr>
                             <% }); %>
                         </tbody>
@@ -168,7 +168,7 @@
                 <hr>
                 <h4>Open New Account</h4>
                 <form id="inline-create-account-form">
-                    <input type="hidden" name="customerId" value="<%= customerId %>">
+                    <input type="hidden" name="customerId" value="<%- customerId %>">
                     <div class="form-group">
                         <label>Product Type</label>
                         <select class="form-control" name="productCode">
@@ -221,12 +221,12 @@
 
     <script type="text/template" id="account-template">
         <div class="card mb-3">
-            <div class="card-header">Account Overview: <%= accountId %></div>
+            <div class="card-header">Account Overview: <%- accountId %></div>
             <div class="card-body">
-                <p><strong>Product Code:</strong> <%= productCode %></p>
-                <p><strong>Status:</strong> <%= status %></p>
-                <p><strong>Current Balance:</strong> <%= balance %></p>
-                <p><strong>Primary Owner ID:</strong> <%= customerId %></p>
+                <p><strong>Product Code:</strong> <%- productCode %></p>
+                <p><strong>Status:</strong> <%- status %></p>
+                <p><strong>Current Balance:</strong> <%- balance %></p>
+                <p><strong>Primary Owner ID:</strong> <%- customerId %></p>
                 <% if (status === 'OPEN') { %>
                     <button class="btn close-account">Deactivate Account</button>
                 <% } %>
@@ -237,7 +237,7 @@
             <div class="card-header">Record New Transaction</div>
             <div class="card-body">
                 <form id="inline-create-transaction-form">
-                    <input type="hidden" name="accountId" value="<%= accountId %>">
+                    <input type="hidden" name="accountId" value="<%- accountId %>">
                     <div class="form-group">
                         <label>Operation</label>
                         <select class="form-control" name="transactionType">
@@ -273,9 +273,9 @@
     </script>
 
     <script type="text/template" id="transaction-row-template">
-        <td><%= transactionType %></td>
-        <td><%= amount %></td>
-        <td><%= transactionDate %></td>
+        <td><%- transactionType %></td>
+        <td><%- amount %></td>
+        <td><%- transactionDate %></td>
     </script>
 
     <script type="text/template" id="create-account-template">
@@ -340,7 +340,7 @@
             <h2 class="text-danger">Resource Not Found</h2>
             <div class="card bg-danger-light">
                 <div class="card-body">
-                    <p><%= message %></p>
+                    <p><%- message %></p>
                     <a href="#" class="btn">Return to Dashboard</a>
                 </div>
             </div>

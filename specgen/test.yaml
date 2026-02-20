@@ -1,0 +1,126 @@
+version: "1.0.0"
+
+# Migrated Banking CIF API Test Suite
+
+# 1. Customer Tests
+customer_api:
+  - name: "Create Customer - Success"
+    method: "POST"
+    url: "/api/v1/customers"
+    body:
+      firstName: "Alice"
+      lastName: "Smith"
+      email: "alice.smith@example.com"
+      dateOfBirth: "1990-01-01"
+    status: 201
+    response_contains:
+      email: "alice.smith@example.com"
+      kycStatus: "PENDING"
+    # Note: Validate that the cifNumber generated is NOT highly predictable (not currentTimeMillis)
+
+  - name: "Create Customer - Validation Error (Missing Email)"
+    method: "POST"
+    url: "/api/v1/customers"
+    body:
+      firstName: "Bob"
+      lastName: "Jones"
+      # email missing
+    status: 400
+
+  - name: "Get Customer - Found by ID"
+    method: "GET"
+    url: "/api/v1/customers/{customerId}" # Needs dynamic ID replacement (integer) in runner
+    status: 200
+    response_contains:
+      firstName: "Alice"
+
+  - name: "Get Customer - Not Found (Invalid ID Type)"
+    method: "GET"
+    url: "/api/v1/customers/alice" # Should return 400 Bad Request, NOT a search result
+    status: 400
+
+  - name: "Search Customer - By Name"
+    method: "GET"
+    url: "/api/v1/customers/search?name=Alice"
+    status: 200
+    # Should return a list
+    
+  - name: "Get Customer - Unauthorized (IDOR Prevention)"
+    method: "GET"
+    url: "/api/v1/customers/{otherCustomerId}"
+    # Requires an unauthorized token context in runner
+    status: 403
+
+# 2. Account (Financial Application) Tests
+account_api:
+  - name: "Create Account - Success"
+    method: "POST"
+    url: "/api/v1/accounts"
+    body:
+      customerId: "{customerId}" # Dynamic Integer
+      productCode: "SAV-HYS" # Based on products in DB
+    status: 201
+    response_contains:
+      status: "ACTIVE"
+      balance: 0.00
+    # Note: Validate that accountNumber is securely generated
+
+  - name: "Create Account - Invalid Product"
+    method: "POST"
+    url: "/api/v1/accounts"
+    body:
+      customerId: "{customerId}"
+      productCode: "INVALID-CODE"
+    status: 400
+
+  - name: "Update Account Status"
+    method: "PATCH"
+    url: "/api/v1/accounts/{accountId}/status"
+    body:
+      status: "FROZEN"
+    status: 200
+    response_contains:
+      status: "FROZEN"
+
+# 3. Transaction Tests
+transaction_api:
+  - name: "Deposit - Success"
+    method: "POST"
+    url: "/api/v1/transactions"
+    body:
+      accountId: "{accountId}"
+      type: "DEPOSIT"
+      amount: 500.00
+      description: "Opening Deposit"
+    status: 201
+    response_contains:
+      amount: 500.00
+      transactionType: "DEPOSIT"
+      balanceAfter: 500.00
+
+  - name: "Deposit - Validation Error (Negative Amount)"
+    method: "POST"
+    url: "/api/v1/transactions"
+    body:
+      accountId: "{accountId}"
+      type: "DEPOSIT"
+      amount: -100.00 # Invalid amount
+      description: "Hacker Attempt"
+    status: 400
+    response_contains:
+      error: "Bad Request"
+
+  - name: "Withdrawal - Insufficient Funds"
+    method: "POST"
+    url: "/api/v1/transactions"
+    body:
+      accountId: "{accountId}"
+      type: "WITHDRAWAL"
+      amount: 10000.00 # Exceeds 500 balance
+    status: 422 # Unprocessable Entity
+    
+  - name: "Get Account Transactions"
+    method: "GET"
+    url: "/api/v1/transactions/account/{accountId}"
+    status: 200
+    # Should be a list containing at least the deposit
