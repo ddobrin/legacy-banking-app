@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: banking-cif-microservice
@@ -16,9 +19,6 @@ spring:
       hibernate:
         format_sql: true
 
-server:
-  port: 8080
-
 ---
 spring:
   config:
@@ -35,3 +35,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    defer-datasource-initialization: true

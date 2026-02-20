@@ -1,0 +1,2 @@
+INSERT INTO products (product_code, name, category, interest_rate, is_active) VALUES ('CHK-STD', 'Standard Checking', 'CHECKING', 0.0000, true);
+INSERT INTO products (product_code, name, category, interest_rate, is_active) VALUES ('SAV-HYS', 'High Yield Savings', 'SAVINGS', 0.0500, true);

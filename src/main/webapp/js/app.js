@@ -29,6 +29,10 @@ $(function() {
             if (response && response.model) {
                 return response.model;
             }
+            // If the search endpoint returns an array, take the first customer
+            if (Array.isArray(response) && response.length > 0) {
+                return response[0];
+            }
             return response;
         }
     });
@@ -463,7 +467,11 @@ $(function() {
         viewCustomer: function(id) {
             var customer = new Customer();
             // Use a custom URL for the fetch to handle name/id lookup
-            customer.url = '/api/v1/customers/' + encodeURIComponent(id);
+            if (isNaN(id)) {
+                customer.url = '/api/v1/customers/search?name=' + encodeURIComponent(id);
+            } else {
+                customer.url = '/api/v1/customers/' + encodeURIComponent(id);
+            }
             customer.fetch({
                 success: function() {
                     // Reset url to default for future operations

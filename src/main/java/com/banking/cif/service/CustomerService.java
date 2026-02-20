@@ -19,6 +19,10 @@ import java.util.stream.Collectors;
 public class CustomerService {
      @org.springframework.beans.factory.annotation.Autowired
     private CustomerRepository customerRepository;
+    
+     @org.springframework.beans.factory.annotation.Autowired
+    private com.banking.cif.repository.AccountRepository accountRepository;
+
     private SecureRandom secureRandom = new SecureRandom();
 
     @Transactional
@@ -89,6 +93,28 @@ public class CustomerService {
         dto.setEmail(customer.getEmail());
         dto.setDateOfBirth(customer.getDateOfBirth());
         dto.setKycStatus(customer.getKycStatus());
+        dto.setRiskRating(customer.getRiskRating());
+        
+        if (customer.getCustomerId() != null) {
+            java.util.List<com.banking.cif.model.Account> accountEntities = accountRepository.findByCustomer_CustomerId(customer.getCustomerId());
+            dto.setAccountCount(accountEntities.size());
+            
+            java.util.List<com.banking.cif.dto.AccountDTO> accountDTOs = accountEntities.stream().map(acc -> {
+                com.banking.cif.dto.AccountDTO accDto = new com.banking.cif.dto.AccountDTO();
+                accDto.setAccountId(acc.getAccountId());
+                accDto.setCustomerId(acc.getCustomer().getCustomerId());
+                accDto.setProductCode(acc.getProduct().getProductCode());
+                accDto.setAccountNumber(acc.getAccountNumber());
+                accDto.setBalance(acc.getBalance());
+                accDto.setStatus(acc.getStatus());
+                return accDto;
+            }).collect(Collectors.toList());
+            dto.setAccounts(accountDTOs);
+        } else {
+            dto.setAccountCount(0);
+            dto.setAccounts(new java.util.ArrayList<>());
+        }
+        
         return dto;
     }
 }

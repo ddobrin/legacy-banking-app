@@ -41,7 +41,7 @@ public class AccountService {
         Account account = new Account();
         account.setCustomer(customer);
         account.setProduct(product);
-        account.setBalance(BigDecimal.ZERO);
+        account.setBalance(request.getBalance() != null ? request.getBalance() : BigDecimal.ZERO);
         account.setStatus("ACTIVE");
         account.setAccountNumber(generateAccountNumber());
 
