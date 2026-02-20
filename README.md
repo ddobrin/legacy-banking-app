@@ -1,3 +1,7 @@
+# Modernized app
+See the USAGE.md file for usage details details
+
+### Previous README.md content
 This is a "legacy" enterprise application, created using Gemini CLI, that conforms to web development standards circa... 2005, maybe? It's intended to be used as an example of how to modernize an application with agentic coding techniques. Start here and then apply a modernization process to get something newer.
 
 # Running the application
