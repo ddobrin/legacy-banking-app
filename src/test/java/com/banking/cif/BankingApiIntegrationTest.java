@@ -2,11 +2,10 @@ package com.banking.cif;
 
 import com.banking.cif.model.Product;
 import com.banking.cif.repository.ProductRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -46,9 +45,6 @@ public class BankingApiIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private ProductRepository productRepository;
@@ -139,7 +135,7 @@ public class BankingApiIntegrationTest {
         // Deposit Success
         mockMvc.perform(post("/api/v1/transactions")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"accountId\":" + accountId + ",\"type\":\"DEPOSIT\",\"amount\":500.00,\"description\":\"Opening Deposit\"}"))
+                .content("{\"accountId\":" + accountId + ",\"transactionType\":\"DEPOSIT\",\"amount\":500.00,\"description\":\"Opening Deposit\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.amount", is(500.0)))
                 .andExpect(jsonPath("$.transactionType", is("DEPOSIT")))
@@ -148,14 +144,14 @@ public class BankingApiIntegrationTest {
         // Deposit Negative Amount
         mockMvc.perform(post("/api/v1/transactions")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"accountId\":" + accountId + ",\"type\":\"DEPOSIT\",\"amount\":-100.00,\"description\":\"Hacker Attempt\"}"))
+                .content("{\"accountId\":" + accountId + ",\"transactionType\":\"DEPOSIT\",\"amount\":-100.00,\"description\":\"Hacker Attempt\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error", is("Bad Request")));
 
         // Withdrawal Insufficient Funds
         mockMvc.perform(post("/api/v1/transactions")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"accountId\":" + accountId + ",\"type\":\"WITHDRAWAL\",\"amount\":10000.00}"))
+                .content("{\"accountId\":" + accountId + ",\"transactionType\":\"WITHDRAWAL\",\"amount\":10000.00}"))
                 .andExpect(status().isUnprocessableEntity());
 
         // Get Account Transactions
