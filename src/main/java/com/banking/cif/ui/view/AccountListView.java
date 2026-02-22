@@ -46,7 +46,10 @@ public class AccountListView extends VerticalLayout {
         Button searchButton = new Button("Search");
         searchButton.addClickListener(click -> searchAccount());
 
-        HorizontalLayout toolbar = new HorizontalLayout(searchField, searchButton);
+        Button addAccountButton = new Button("Add Account");
+        addAccountButton.addClickListener(click -> getUI().ifPresent(ui -> ui.navigate(AccountFormView.class)));
+
+        HorizontalLayout toolbar = new HorizontalLayout(searchField, searchButton, addAccountButton);
         return toolbar;
     }
 

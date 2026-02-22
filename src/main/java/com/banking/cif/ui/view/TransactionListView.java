@@ -48,7 +48,10 @@ public class TransactionListView extends VerticalLayout {
         Button searchButton = new Button("Search");
         searchButton.addClickListener(click -> searchTransactions());
 
-        HorizontalLayout toolbar = new HorizontalLayout(searchField, searchButton);
+        Button newTransactionButton = new Button("New Transaction");
+        newTransactionButton.addClickListener(click -> getUI().ifPresent(ui -> ui.navigate(TransactionFormView.class)));
+
+        HorizontalLayout toolbar = new HorizontalLayout(searchField, searchButton, newTransactionButton);
         return toolbar;
     }
 
