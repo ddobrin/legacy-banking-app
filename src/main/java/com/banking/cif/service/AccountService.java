@@ -52,7 +52,9 @@ public class AccountService {
     public AccountDTO getAccountById(Integer id) {
         return accountRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new ResourceNotFoundException("Account not found with id: " + id));
+                .orElseGet(() -> accountRepository.findByAccountNumber(id)
+                        .map(this::mapToDTO)
+                        .orElseThrow(() -> new ResourceNotFoundException("Account not found with id or account number: " + id)));
     }
 
     @Transactional

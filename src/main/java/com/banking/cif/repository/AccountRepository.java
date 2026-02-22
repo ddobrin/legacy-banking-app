@@ -15,6 +15,8 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     @Query("SELECT a FROM Account a WHERE a.accountId = :id")
     Optional<Account> findByIdForUpdate(@Param("id") Integer id);
 
+    Optional<Account> findByAccountNumber(Integer accountNumber);
+
     boolean existsByAccountNumber(Integer accountNumber);
 
     long countByCustomer_CustomerId(Integer customerId);

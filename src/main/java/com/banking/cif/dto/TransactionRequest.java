@@ -1,6 +1,7 @@
 package com.banking.cif.dto;
 
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import java.math.BigDecimal;
 
@@ -13,6 +14,7 @@ public class TransactionRequest {
     
     @NotBlank
     @Pattern(regexp = "DEPOSIT|WITHDRAWAL", message = "Type must be DEPOSIT or WITHDRAWAL")
+    @JsonProperty("transactionType")
     private String type;
     
     @NotNull
@@ -22,7 +24,9 @@ public class TransactionRequest {
     private String description;
     public Integer getAccountId() { return accountId; }
     public void setAccountId(Integer accountId) { this.accountId = accountId; }
+    @JsonProperty("transactionType")
     public String getType() { return type; }
+    @JsonProperty("transactionType")
     public void setType(String type) { this.type = type; }
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
