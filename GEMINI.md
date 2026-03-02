@@ -1,14 +1,14 @@
-# Legacy Banking CIF Application
+# Modernized Banking CIF Application
 
 ## Project Overview
-This project is a legacy Customer Information File (CIF) system for a banking application. It provides a RESTful API for managing customers, accounts, and transactions, with a web-based frontend.
+This project is a modernized Customer Information File (CIF) system for a banking application. It provides a RESTful API for managing customers, accounts, and transactions, with a web-based frontend. The backend has been completely migrated from a legacy Struts 2 architecture to a modern Spring Boot microservice.
 
 ### Technologies
-- **Backend:** Java 8, Maven
-- **Framework:** Struts 2 (REST Plugin, Convention Plugin, JSON Plugin)
+- **Backend:** Java 21, Maven
+- **Framework:** Spring Boot 3.2.3 (Spring Web, Spring Data JPA, Spring Validation)
 - **Database:** PostgreSQL (production), H2 (embedded/testing)
-- **Frontend:** Backbone.js, jQuery, Underscore.js
-- **Testing:** JUnit 4, Mockito
+- **Frontend:** Backbone.js, jQuery, Underscore.js (Legacy UI preserved)
+- **Testing:** JUnit 5, Testcontainers
 
 ## Building and Running
 
@@ -19,30 +19,30 @@ To compile the project:
 ```
 
 ### Test
-To run the unit and integration tests:
+To run the unit and integration tests (requires Docker for Testcontainers):
 ```bash
 ./mvnw test
 ```
 
 ### Run
-The project uses the Jetty Maven plugin for local development. To start the application:
+To start the application locally:
 ```bash
-./mvnw jetty:run
+./mvnw spring-boot:run
 ```
 The application will be available at `http://localhost:8080/`.
 
 ## Development Conventions
 
 ### Architecture
-- **Controllers:** Located in `src/main/java/com/banking/cif/action/`. These classes use the Struts 2 REST plugin and `ModelDriven` interface to expose API endpoints.
-- **Service Layer:** `com.banking.cif.service.BankingService` contains the business logic.
-- **Data Access:** Located in `src/main/java/com/banking/cif/dao/`. Uses JDBC for database interactions.
-- **Models:** POJOs located in `src/main/java/com/banking/cif/model/`.
+- **Controllers:** Located in `src/main/java/com/banking/cif/controller/`. These classes use Spring `@RestController` and `@RequestMapping` to expose API endpoints.
+- **Service Layer:** Located in `src/main/java/com/banking/cif/service/`. Contains business logic and transactional boundaries (e.g., `@Transactional` methods in `CustomerService`).
+- **Data Access:** Located in `src/main/java/com/banking/cif/repository/`. Uses Spring Data JPA interfaces (e.g., `CustomerRepository`) for database interactions, replacing legacy JDBC logic.
+- **Data Transfer Objects (DTOs):** DTOs (like `CustomerDTO`) and request objects are defined in `com.banking.cif.dto/` to ensure safe API data bounding and separate database logic from API responses.
 
 ### API Design
 - Endpoints follow RESTful conventions (e.g., `GET /api/v1/customers/{id}`).
 - JSON is the default exchange format.
-- Error handling is managed within the Controllers using `status`, `error`, and `message` fields.
+- Validation is handled automatically via Spring Boot Validation and `@Valid` annotations on `@RequestBody`.
 
 ### Frontend
 - The application is a Single Page Application (SPA).
@@ -50,11 +50,6 @@ The application will be available at `http://localhost:8080/`.
 - Templates are defined in `src/main/webapp/index.html` using Underscore.js syntax.
 - Static assets are located in `src/main/webapp/css/`, `js/`, and `images/`.
 
-### Testing
-- **Unit Tests:** `BankingServiceTest.java` tests the service layer logic.
-- **API Tests:** `BankingApiTest.java` tests the REST controllers directly.
-- **Mocking:** Use Mockito for dependencies. **Do not use Spring.**
-
 ### Database
-- Initialization logic is in `com.banking.cif.util.DatabaseInitializer`.
-- Database connections are managed by `com.banking.cif.util.DBConnection`.
+- Persistence relies on JPA/Hibernate.
+- Handled through `application.yml` profiles: `validate` for production (PostgreSQL), and `create-drop` with H2 for the `dev` profile.
