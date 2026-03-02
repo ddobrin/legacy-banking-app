@@ -1,0 +1,23 @@
+# Deploy using the Cloud Run MCP SERVER
+
+Use cloud-run to deploy the current project to Google Cloud
+   - set env variables GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_LOCATION from the current authenticated project
+   - provision 2 GB RAM and 2 vCPUs
+   - use project name `legacy-banking-app`
+   - set the minimum number of instances at 0 and max at 1
+   - set the env variable SERVER_PORT to 8080
+   - set the env variable SPRING_PROFILES_ACTIVE to prod
+   - set the build env variable GOOGLE_BUILD_ARGS to "-Pproduction"
+
+ gcloud run deploy legacy-banking-app \
+       --source . \
+       --project <your project> \
+       --region us-central1 \
+       --set-env-vars SPRING_PROFILES_ACTIVE=prod,GOOGLE_CLOUD_PROJECT=<your project>,GOOGLE_CLOUD_LOCATION=global \
+       --set-build-env-vars GOOGLE_BUILD_ARGS="-Pproduction" \
+       --memory 2Gi \
+       --cpu 2 \
+      --min-instances 0 \
+      --max-instances 1 \
+      --allow-unauthenticated \
+      --quiet   
