@@ -6,14 +6,14 @@ Use cloud-run to deploy the current project to Google Cloud
    - use project name `legacy-banking-app`
    - set the minimum number of instances at 0 and max at 1
    - set the env variable SERVER_PORT to 8080
-   - set the env variable SPRING_PROFILES_ACTIVE to dev
+   - set the env variable SPRING_PROFILES_ACTIVE to prod
    - set the build env variable GOOGLE_BUILD_ARGS to "-Pproduction"
 
  gcloud run deploy legacy-banking-app \
        --source . \
        --project <your project> \
        --region us-central1 \
-       --set-env-vars GOOGLE_CLOUD_PROJECT=<your project>>,GOOGLE_CLOUD_LOCATION=global \
+       --set-env-vars SPRING_PROFILES_ACTIVE=prod,GOOGLE_CLOUD_PROJECT=<your project>,GOOGLE_CLOUD_LOCATION=global \
        --set-build-env-vars GOOGLE_BUILD_ARGS="-Pproduction" \
        --memory 2Gi \
        --cpu 2 \
