@@ -4,7 +4,9 @@
 
 ---
 
- /plan:explain-project in detail and update the content into the Gemini.md file
+ /plan:explain-project in detail and update the content into the GEMINI.md file
+
+explore the architecture, codebase and configuration of this cif-service project in detail, layer by layer and write the information to the @migrate/Architecture_Overview.md file
 
 --- 
 
@@ -32,17 +34,19 @@ investigate recursively each of the three areas you have suggested and append ea
        *   **Focus:** Performance, security, resource utilization.                                                                                                                 
        *   **Outcome:** Documented findings on query efficiency, security practices, and resource management.                                                                      
                                                                                                                                                                                    
-   **Append to:** `@migrate/architecture_overview.md`         
+   **Append to:** `@migrate/Architecture_Overview.md`         
 
 ----
 
     /security:analyze in detail the @src/ folder and write your findinds to a file in the @migrate folder 
 
 --- 
-    /review:review-code in the @src folder and write the finfinds to the @migrate folder  
+    /review:review-code in the @src folder and write the findings to the @migrate folder  
 
 ---
-    Read the architecture analysis, code review and security audit documents in @migrate. Use the database analyst and extract the DDL for the legacy aplication from the codebase. Write the DDL file to the @migrate folder
+Read the architecture analysis, code review and security audit documents in @migrate. 
+Reead the database code in the @src folder
+Use the database analyst and extract the DDL for the legacy aplication from the codebase. Write the DDL file to the @migrate folder
 
 --- 
 
@@ -53,13 +57,29 @@ Generate a plan for the migration of the legacy banking app with the following g
     * architecture overview, code review and security report files available in @migrate
     * Techspec document available in @migrate
 
-* Read and analyze in detail the SPEC.md, test.yaml, INSTALL.md from the @template-spec folder and use them as a template
+* Read and analyze in detail the SPEC.md, test.yaml, INSTALL.md from the repo https://github.com/dbreunig/whenwords and use them as a template for a consistent format
 
 * Generate the SPEC.md, test.yaml, INSTALL.md for migrating the legacy banking application
 
 Write the output to the /specgen subfolder
 
 ---
+
+
+Generate a plan for the migration of the legacy banking app with the following guidelines and artifacts:
+
+* Read the following information available to you in the @migrate subfolder
+    * data model described by the DDL @migrate/legacy_schema.sql
+    * architecture overview, code review and security report files available in @migrate
+    * Techspec document available in @migrate
+
+* Read and analyze in detail the SPEC.md, test.yaml, INSTALL.md from the @template-spec folder and use them as a template for a consistent format
+
+* Generate the SPEC.md, test.yaml, INSTALL.md for migrating the legacy banking application
+
+Write the output to the /specgen subfolder
+---
+
 
 Implement the plan with the following instructions:
 
