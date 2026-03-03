@@ -1,5 +1,10 @@
 
-/plan:explain-project analyze the project in detail and write the findings to a file  
+./mvwn jetty:run
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+
+---
+
+ /plan:explain-project in detail and update the content into the Gemini.md file
 
 --- 
 

@@ -1,4 +1,9 @@
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 
+/plan:explain-project in detail and update the content into the GEMINI.md file
+
+/memory list
+/memory refresh
 
 create a plan to modernize the frontend of the existing app as follows:                                                                  
    - update Spring Boot to 4.0.2                                                                                                            

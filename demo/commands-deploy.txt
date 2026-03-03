@@ -1,7 +1,13 @@
 # Deploy using the Cloud Run MCP SERVER
 
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+
+ /plan:explain-project in detail and update the content into the Gemini.md file
+
+list all the cloud run services in the genai-playground24 project, use cloud-run
+
 Use cloud-run to deploy the current project to Google Cloud
-   - set env variables GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_LOCATION from the current authenticated project
+   - set env variables GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_LOCATION from the genai-playground24 project
    - provision 2 GB RAM and 2 vCPUs
    - use project name `legacy-banking-app`
    - set the minimum number of instances at 0 and max at 1
