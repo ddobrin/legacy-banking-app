@@ -16,3 +16,9 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 .DS_Store
+
+# Vaadin / Hilla frontend build artifacts
+node_modules/
+src/main/frontend/generated/
+src/main/bundles/
+vite.generated.ts
