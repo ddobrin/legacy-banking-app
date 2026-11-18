@@ -12,4 +12,5 @@ spring:
 vaadin:
   exclude-urls:
     - /api/**
+    - /h2-console
     - /h2-console/**
