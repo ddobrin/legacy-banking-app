@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: banking-cif-service
+  profiles:
+    default: dev
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:legacy_schema.sql
+      data-locations: classpath:data.sql
+
+server:
+  port: ${SERVER_PORT:8080}
+
+vaadin:
+  exclude-urls:
+    - /api/**
